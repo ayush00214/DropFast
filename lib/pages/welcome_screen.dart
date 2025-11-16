@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/custom_button.dart';
+import 'package:drop_fast/routes.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
@@ -19,7 +20,7 @@ class WelcomeScreen extends StatelessWidget {
             const SizedBox(height: 30),
             CustomButton(
               text: "Get Started",
-              onPressed: () => Navigator.pushNamed(context, '/login'),
+              onPressed: () => Navigator.pushNamed(context, AppRoute.signuppage),
             )
           ],
         ),

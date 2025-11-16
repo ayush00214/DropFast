@@ -1,5 +1,7 @@
+import 'package:drop_fast/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import '../widgets/custom_button.dart';
+import 'package:drop_fast/routes.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -8,7 +10,23 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final emailController = TextEditingController();
     final passwordController = TextEditingController();
+    final AuthService authService = AuthService();
 
+    Future<void> loginUser() async {
+      String? error = await authService.login(emailController.text, passwordController.text);
+
+      if (error != null) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(error)));
+      } else {
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          AppRoute.homepage,
+          (route) => false,
+        );
+      }
+    }
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25),
@@ -53,7 +71,7 @@ class LoginScreen extends StatelessWidget {
               children: [
                 const Text("Don’t have an account? "),
                 GestureDetector(
-                  onTap: () => Navigator.pushNamed(context, '/signup'),
+                  onTap: () => Navigator.pushNamed(context, AppRoute.signuppage),
                   child: const Text(
                     "Sign up",
                     style: TextStyle(color: Color(0xFF007BFF)),
@@ -64,7 +82,7 @@ class LoginScreen extends StatelessWidget {
             const SizedBox(height: 20),
             CustomButton(
               text: "Login",
-              onPressed: () => Navigator.pushReplacementNamed(context, '/home'),
+              onPressed: () async => await loginUser(),
             ),
           ],
         ),

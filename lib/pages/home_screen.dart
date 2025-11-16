@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:drop_fast/routes.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -14,7 +15,7 @@ class HomeScreen extends StatelessWidget {
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            _menuItem(Icons.cloud_upload, "Upload File", () => Navigator.pushNamed(context, '/upload')),
+            _menuItem(Icons.cloud_upload, "Upload File", () => Navigator.pushNamed(context, AppRoute.uploadpage)),
             _menuItem(Icons.folder, "Storage", () {}),
             _menuItem(Icons.settings, "Setting", () {}),
             const Spacer(),
