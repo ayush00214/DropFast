@@ -7,41 +7,127 @@ class SignupScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 25),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset('assets/logo.png', height: 100),
-            const Text('DropFast',
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Color(0xFF007BFF))),
-            const Text('Fast & Secure File Sharing',
-                style: TextStyle(color: Colors.grey)),
-            const SizedBox(height: 25),
-            const TextField(decoration: InputDecoration(hintText: 'Name', border: OutlineInputBorder())),
-            const SizedBox(height: 15),
-            const TextField(decoration: InputDecoration(hintText: 'Email', border: OutlineInputBorder())),
-            const SizedBox(height: 15),
-            const TextField(
-                obscureText: true,
-                decoration: InputDecoration(hintText: 'Password', border: OutlineInputBorder(), suffixIcon: Icon(Icons.lock))),
-            const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text("Already have an account? "),
-                GestureDetector(
-                  onTap: () => Navigator.pushNamed(context, '/login'),
-                  child: const Text("Login", style: TextStyle(color: Color(0xFF007BFF))),
+      backgroundColor: Colors.grey[100],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 25),
+          child: Column(
+            children: [
+              const SizedBox(height: 70),
+
+              /// LOGO
+              Image.asset('assets/logo.png', height: 110),
+              const SizedBox(height: 8),
+
+              const Text(
+                'DropFast',
+                style: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF007BFF),
                 ),
-              ],
-            ),
-            const SizedBox(height: 20),
-            CustomButton(
-              text: "Sign Up",
-              onPressed: () => Navigator.pushReplacementNamed(context, '/home'),
-            )
-          ],
+              ),
+              const Text(
+                'Fast & Secure File Sharing',
+                style: TextStyle(color: Colors.grey, fontSize: 14),
+              ),
+
+              const SizedBox(height: 35),
+
+              /// --------------------------
+              ///  NAME FIELD
+              /// --------------------------
+              _inputField(
+                hint: "Name",
+                icon: Icons.person,
+              ),
+              const SizedBox(height: 18),
+
+              /// --------------------------
+              ///  EMAIL FIELD
+              /// --------------------------
+              _inputField(
+                hint: "Email",
+                icon: Icons.email,
+              ),
+              const SizedBox(height: 18),
+
+              /// --------------------------
+              ///  PASSWORD FIELD
+              /// --------------------------
+              _inputField(
+                hint: "Password",
+                icon: Icons.lock,
+                obscure: true,
+              ),
+
+              const SizedBox(height: 15),
+
+              /// LOGIN REDIRECT
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text("Already have an account? "),
+                  GestureDetector(
+                    onTap: () => Navigator.pushNamed(context, '/login'),
+                    child: const Text(
+                      "Login",
+                      style: TextStyle(
+                        color: Color(0xFF007BFF),
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 30),
+
+              /// SIGN UP BUTTON
+              CustomButton(
+                text: "Sign Up",
+                onPressed: () => Navigator.pushReplacementNamed(context, '/home'),
+              ),
+
+              const SizedBox(height: 40),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  /// -----------------------------------------------------
+  ///  CUSTOM INPUT FIELD (ENHANCED UI)
+  /// -----------------------------------------------------
+  Widget _inputField({
+    required String hint,
+    required IconData icon,
+    bool obscure = false,
+  }) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(14),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black12.withOpacity(0.06),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: TextField(
+        obscureText: obscure,
+        decoration: InputDecoration(
+          prefixIcon: Icon(icon, color: Color(0xFF007BFF)),
+          hintText: hint,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(14),
+            borderSide: BorderSide.none,
+          ),
+          filled: true,
+          fillColor: Colors.white,
         ),
       ),
     );
