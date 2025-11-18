@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:firebase_auth/firebase_auth.dart';
+import '../models/UserModel.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -17,7 +18,9 @@ class AuthService {
 
       // send token to backend
       await http.post(
-        Uri.parse("http://google-discussing.gl.at.ply.gg:16557/api/auth/signup"),
+        Uri.parse(
+          "http://google-discussing.gl.at.ply.gg:16557/api/auth/signup",
+        ),
         headers: {"Content-Type": "application/json"},
         body: jsonEncode({
           "uid": userCredential.user!.uid,
@@ -68,6 +71,31 @@ class AuthService {
     }
   }
 
-  // Check User State
+  Future<UserModel?> getCurrentUser() async {
+    try {
+      final uid = _auth.currentUser?.uid;
+      final response = await http.get(
+        Uri.parse(
+          "http://google-discussing.gl.at.ply.gg:16557/api/auth/profile/$uid",
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        final body = jsonDecode(response.body);
+
+        // Extract only the inner user object
+        final userJson = body["user"];
+        return UserModel.fromJson(userJson); // ✅ convert JSON → model
+      } else {
+        print("Error: ${response.body}");
+        return null;
+      }
+    } catch (e) {
+      print("Exception: $e");
+      return null;
+    }
+  }
+
+  // Check User State 
   Stream<User?> get userStream => _auth.authStateChanges();
 }

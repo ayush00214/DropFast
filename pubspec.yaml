@@ -38,6 +38,9 @@ dependencies:
   firebase_core: ^4.2.1
   firebase_auth: ^6.1.2
   http:
+  file_picker:
+  qr_flutter: ^4.1.0
+  url_launcher: 
 
 dev_dependencies:
   flutter_test:

@@ -1,10 +1,13 @@
+import 'package:drop_fast/models/UserModel.dart';
 import 'package:flutter/material.dart';
+import '../services/auth_service.dart';
 
 class MyQrScreen extends StatelessWidget {
   const MyQrScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final AuthService _authService = AuthService();
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
@@ -34,28 +37,36 @@ class MyQrScreen extends StatelessWidget {
 
             const Text(
               "DropFast",
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
 
             const SizedBox(height: 8),
-            const Text(
-              "Ramesh Babu",
-              style: TextStyle(fontSize: 18),
-            ),
-            const Text("ramesh123@gmail.com",
-                style: TextStyle(color: Colors.grey)),
 
+            FutureBuilder<UserModel?>(
+              future: _authService.getCurrentUser(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+
+                final user = snapshot.data!;
+
+                return Column(
+                  children: [
+                    Text(
+                      user.name,
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    Text(user.email, style: TextStyle(color: Colors.grey)),
+                  ],
+                );
+              },
+            ),
             const SizedBox(height: 30),
 
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                _actionButton("Download QR"),
-                _actionButton("Scan"),
-              ],
+              children: [_actionButton("Download QR"), _actionButton("Scan")],
             ),
           ],
         ),

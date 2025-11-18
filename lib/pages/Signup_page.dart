@@ -18,7 +18,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
   Future<void> signupUser() async {
     String? error = await _authService.signup(name.text, email.text, password.text);
-
+    
     if (error != null) {
       ScaffoldMessenger.of(
         context,
@@ -66,6 +66,7 @@ class _SignupScreenState extends State<SignupScreen> {
               ///  NAME FIELD
               /// --------------------------
               _inputField(
+                controller: name,
                 hint: "Name",
                 icon: Icons.person,
               ),
@@ -75,6 +76,7 @@ class _SignupScreenState extends State<SignupScreen> {
               ///  EMAIL FIELD
               /// --------------------------
               _inputField(
+                controller: email,
                 hint: "Email",
                 icon: Icons.email,
               ),
@@ -84,6 +86,7 @@ class _SignupScreenState extends State<SignupScreen> {
               ///  PASSWORD FIELD
               /// --------------------------
               _inputField(
+                controller: password,
                 hint: "Password",
                 icon: Icons.lock,
                 obscure: true,
@@ -129,6 +132,7 @@ class _SignupScreenState extends State<SignupScreen> {
   ///  CUSTOM INPUT FIELD (ENHANCED UI)
   /// -----------------------------------------------------
   Widget _inputField({
+    required TextEditingController controller,
     required String hint,
     required IconData icon,
     bool obscure = false,
@@ -146,6 +150,7 @@ class _SignupScreenState extends State<SignupScreen> {
         ],
       ),
       child: TextField(
+        controller: controller,
         obscureText: obscure,
         decoration: InputDecoration(
           prefixIcon: Icon(icon, color: Color(0xFF007BFF)),
