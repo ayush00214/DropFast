@@ -59,8 +59,13 @@ class AuthService {
   }
 
   // Logout
-  Future<void> logout() async {
-    await _auth.signOut();
+  Future<String?> logout() async {
+    try {
+      await _auth.signOut();
+      return null;
+    } on FirebaseAuthException catch (e) {
+      return e.message;
+    }
   }
 
   // Check User State
