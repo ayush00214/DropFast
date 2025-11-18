@@ -17,7 +17,7 @@ class _SignupScreenState extends State<SignupScreen> {
   final AuthService _authService = AuthService();
 
   Future<void> signupUser() async {
-    String? error = await _authService.signup(email.text, password.text);
+    String? error = await _authService.signup(name.text, email.text, password.text);
 
     if (error != null) {
       ScaffoldMessenger.of(
