@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'processing_screen.dart';
 
 class UploadScreen extends StatelessWidget {
   const UploadScreen({super.key});
@@ -6,124 +7,156 @@ class UploadScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[100],
+
       appBar: AppBar(
-        title: const Text("Share"),
+        elevation: 3,
         backgroundColor: const Color(0xFF007BFF),
+        title: const Text(
+          "Upload",
+          style: TextStyle(
+            fontWeight: FontWeight.w700,
+          ),
+        ),
         centerTitle: true,
       ),
 
-      body: Stack(
-        children: [
-          /// MAIN CONTENT
-          Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              children: [
-                const Text(
-                  "Upload File",
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                  ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+
+              const SizedBox(height: 10),
+
+              /// TITLE
+              const Text(
+                "Upload File",
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w800,
                 ),
+              ),
+              const SizedBox(height: 18),
 
-                const SizedBox(height: 20),
-
-                /// UPLOAD BOX
-                Container(
-                  height: 140,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey),
-                    borderRadius: BorderRadius.circular(14),
-                  ),
-                  child: const Center(
-                    child: Icon(Icons.cloud_upload,
-                        size: 45, color: Colors.grey),
-                  ),
-                ),
-
-                const SizedBox(height: 15),
-
-                /// BUTTON
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF007BFF),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 30, vertical: 12),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                  child: const Text("Upload File"),
-                ),
-
-                const SizedBox(height: 30),
-
-                const Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Recent Files",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
-                  ),
-                ),
-
-                const SizedBox(height: 10),
-
-                _fileItem("Document.pdf"),
-                _fileItem("Photo.jpg"),
-                _fileItem("Video.mp4"),
-              ],
-            ),
-          ),
-
-          /// FLOATING QR BUTTON (TOP RIGHT)
-          Positioned(
-            right: 20,
-            top: 10,
-            child: GestureDetector(
-              onTap: () => Navigator.pushNamed(context, '/myqr'),
-              child: Container(
-                padding: const EdgeInsets.all(12),
+              /// PROFESSIONAL UPLOAD BOX
+              Container(
+                height: 160,
+                width: double.infinity,
                 decoration: BoxDecoration(
-                  color: const Color(0xFF007BFF),
-                  shape: BoxShape.circle,
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(18),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.15),
-                      blurRadius: 10,
-                      offset: const Offset(0, 4),
+                      color: Colors.black.withOpacity(0.06),
+                      blurRadius: 12,
+                      offset: const Offset(0, 5),
                     ),
                   ],
                 ),
-                child: const Icon(
-                  Icons.qr_code,
-                  color: Colors.white,
-                  size: 28,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Icon(Icons.cloud_upload,
+                        size: 55, color: Color(0xFF007BFF)),
+                    SizedBox(height: 10),
+                    Text(
+                      "Tap to choose file",
+                      style: TextStyle(
+                        color: Colors.black54,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ),
+
+              const SizedBox(height: 25),
+
+              /// UPLOAD BUTTON
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    /// Show Processing → then Upload Success
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) =>
+                            const ProcessingScreen(nextRoute: '/uploadSuccess'),
+                      ),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF007BFF),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 14),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  child: const Text(
+                    "Upload File",
+                    style: TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 35),
+
+              /// RECENT FILES TITLE
+              const Text(
+                "Recent Files",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              const SizedBox(height: 12),
+
+              _fileItem("Document.pdf"),
+              _fileItem("Photo.jpg"),
+              _fileItem("Video.mp4"),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
 
-  /// Recent file item widget
-  Widget _fileItem(String fileName) {
+  /// ---------------------------------------------
+  /// Recent File Tile
+  /// ---------------------------------------------
+  Widget _fileItem(String name) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 10),
+      margin: const EdgeInsets.only(bottom: 12),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(14),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 8,
+            offset: const Offset(0, 4),
+          )
+        ],
+      ),
       child: ListTile(
-        leading: const Icon(Icons.insert_drive_file, color: Color(0xFF007BFF)),
-        title: Text(fileName),
-        tileColor: Colors.grey[100],
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
+        leading: const Icon(
+          Icons.insert_drive_file,
+          color: Color(0xFF007BFF),
         ),
+        title: Text(
+          name,
+          style: const TextStyle(
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        trailing: const Icon(Icons.more_vert, color: Colors.black45),
       ),
     );
   }

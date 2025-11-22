@@ -1,3 +1,4 @@
+import 'package:drop_fast/pages/processing_screen.dart';
 import 'package:flutter/material.dart';
 import '../widgets/custom_button.dart';
 
@@ -88,7 +89,14 @@ class LoginScreen extends StatelessWidget {
               /// LOGIN BUTTON
               CustomButton(
                 text: "Login",
-                onPressed: () => Navigator.pushReplacementNamed(context, '/home'),
+                onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const ProcessingScreen(nextRoute: '/home'),
+    ),
+  );
+},
               ),
 
               const SizedBox(height: 50),

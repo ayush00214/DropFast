@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'about_screen.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -22,18 +23,21 @@ class SettingsScreen extends StatelessWidget {
             label: "Profile",
             onTap: () => Navigator.pushNamed(context, '/profile'),
           ),
-
-          _settingsItem(
-            icon: Icons.info_outline,
-            label: "About",
-            onTap: () {},
-          ),
-
           _settingsItem(
             icon: Icons.color_lens_outlined,
             label: "Theme",
             onTap: () {},
           ),
+            _settingsItem(
+             icon: Icons.info_outline,
+             label: "About",
+             onTap: () {
+             Navigator.push(
+             context,
+             MaterialPageRoute(builder: (context) => const AboutScreen()),
+      );
+    },
+),
 
           _settingsItem(
             icon: Icons.logout,

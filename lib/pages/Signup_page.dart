@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/custom_button.dart';
+import 'processing_screen.dart';
 
 class SignupScreen extends StatelessWidget {
   const SignupScreen({super.key});
@@ -15,7 +16,6 @@ class SignupScreen extends StatelessWidget {
             children: [
               const SizedBox(height: 70),
 
-              /// LOGO
               Image.asset('assets/logo.png', height: 110),
               const SizedBox(height: 8),
 
@@ -34,27 +34,18 @@ class SignupScreen extends StatelessWidget {
 
               const SizedBox(height: 35),
 
-              /// --------------------------
-              ///  NAME FIELD
-              /// --------------------------
               _inputField(
                 hint: "Name",
                 icon: Icons.person,
               ),
               const SizedBox(height: 18),
 
-              /// --------------------------
-              ///  EMAIL FIELD
-              /// --------------------------
               _inputField(
                 hint: "Email",
                 icon: Icons.email,
               ),
               const SizedBox(height: 18),
 
-              /// --------------------------
-              ///  PASSWORD FIELD
-              /// --------------------------
               _inputField(
                 hint: "Password",
                 icon: Icons.lock,
@@ -63,7 +54,6 @@ class SignupScreen extends StatelessWidget {
 
               const SizedBox(height: 15),
 
-              /// LOGIN REDIRECT
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -83,10 +73,17 @@ class SignupScreen extends StatelessWidget {
 
               const SizedBox(height: 30),
 
-              /// SIGN UP BUTTON
+              /// UPDATED SIGNUP BUTTON WITH LOADING SCREEN
               CustomButton(
                 text: "Sign Up",
-                onPressed: () => Navigator.pushReplacementNamed(context, '/home'),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const ProcessingScreen(nextRoute: '/home'),
+                    ),
+                  );
+                },
               ),
 
               const SizedBox(height: 40),
@@ -97,9 +94,6 @@ class SignupScreen extends StatelessWidget {
     );
   }
 
-  /// -----------------------------------------------------
-  ///  CUSTOM INPUT FIELD (ENHANCED UI)
-  /// -----------------------------------------------------
   Widget _inputField({
     required String hint,
     required IconData icon,

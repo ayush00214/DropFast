@@ -1,3 +1,6 @@
+import 'package:drop_fast/pages/loading_screen.dart';
+import 'package:drop_fast/pages/processing_screen.dart';
+import 'package:drop_fast/pages/upload_success_screen.dart';
 import 'package:flutter/material.dart';
 import 'pages/splash_screen.dart';
 import 'pages/welcome_screen.dart';
@@ -10,7 +13,7 @@ import 'pages/my_qr_screen.dart';
 import 'pages/Storage_screen.dart';
 import 'pages/SettingsScreen.dart';
 import 'pages/Profile_screen.dart';
-
+import 'pages/about_screen.dart';
 void main() {
   runApp(const DropFast());
 }
@@ -41,6 +44,12 @@ class DropFast extends StatelessWidget {
         '/storage': (context) => const StorageScreen(),
         '/settings': (context) => const SettingsScreen(),
         '/profile': (context) => const ProfileScreen(),
+        '/loading': (context) => const LoadingScreen(),
+        '/processing': (context) => const ProcessingScreen(nextRoute: '/home'),
+        '/uploadSuccess': (context) => const UploadSuccessScreen(),
+        '/aboutScreen': (context) => const AboutScreen(),
+        
+
       },
     );
   }
