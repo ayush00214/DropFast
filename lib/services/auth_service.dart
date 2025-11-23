@@ -19,7 +19,8 @@ class AuthService {
       // send token to backend
       await http.post(
         Uri.parse(
-          "http://google-discussing.gl.at.ply.gg:16557/api/auth/signup",
+          "http://google-discussing.gl.at.ply.gg:16557/api/auth/signup"
+              "nup",
         ),
         headers: {"Content-Type": "application/json"},
         body: jsonEncode({

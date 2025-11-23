@@ -17,10 +17,8 @@ class FileService {
 
     var req = http.MultipartRequest('POST', Uri.parse("$baseUrl/upload"));
 
-    /// Add headers BEFORE sending
     req.headers['Authorization'] = 'Bearer $token';
 
-    /// Add all selected files
     for (var file in files) {
       req.files.add(await http.MultipartFile.fromPath("files", file.path));
     }
@@ -51,7 +49,6 @@ class FileService {
         "Authorization": "Bearer $token",
       },
     );
-
     if (response.statusCode != 200) {
       throw Exception("Failed to fetch files: ${response.body}");
     }
