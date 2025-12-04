@@ -8,7 +8,6 @@ Future<void> main() async {
   await  Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  print("APP STARTED");
   runApp(const DropFast());
 }
 

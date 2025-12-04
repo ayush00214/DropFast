@@ -7,7 +7,7 @@ class MyQrScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AuthService _authService = AuthService();
+    final AuthService authService = AuthService();
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
@@ -43,7 +43,7 @@ class MyQrScreen extends StatelessWidget {
             const SizedBox(height: 8),
 
             FutureBuilder<UserModel?>(
-              future: _authService.getCurrentUser(),
+              future: authService.getCurrentUser(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
                   return const Center(child: CircularProgressIndicator());

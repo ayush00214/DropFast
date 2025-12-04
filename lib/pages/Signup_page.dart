@@ -1,6 +1,7 @@
 import 'package:drop_fast/routes.dart';
 import 'package:drop_fast/services/auth_service.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import '../widgets/custom_button.dart';
 
 class SignupScreen extends StatefulWidget {
@@ -15,8 +16,18 @@ class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController email = TextEditingController();
   final TextEditingController password = TextEditingController();
   final AuthService _authService = AuthService();
+  
+    void showProcessing() {
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (_) =>
+            Center(child: Lottie.asset('assets/processing.json', height: 180)),
+      );
+    }
 
   Future<void> signupUser() async {
+    showProcessing();
     String? error = await _authService.signup(name.text, email.text, password.text);
     
     if (error != null) {
@@ -43,7 +54,6 @@ class _SignupScreenState extends State<SignupScreen> {
             children: [
               const SizedBox(height: 70),
 
-              /// LOGO
               Image.asset('assets/logo.png', height: 110),
               const SizedBox(height: 8),
 
@@ -62,9 +72,6 @@ class _SignupScreenState extends State<SignupScreen> {
 
               const SizedBox(height: 35),
 
-              /// --------------------------
-              ///  NAME FIELD
-              /// --------------------------
               _inputField(
                 controller: name,
                 hint: "Name",
@@ -72,9 +79,6 @@ class _SignupScreenState extends State<SignupScreen> {
               ),
               const SizedBox(height: 18),
 
-              /// --------------------------
-              ///  EMAIL FIELD
-              /// --------------------------
               _inputField(
                 controller: email,
                 hint: "Email",
@@ -82,9 +86,6 @@ class _SignupScreenState extends State<SignupScreen> {
               ),
               const SizedBox(height: 18),
 
-              /// --------------------------
-              ///  PASSWORD FIELD
-              /// --------------------------
               _inputField(
                 controller: password,
                 hint: "Password",
@@ -94,7 +95,6 @@ class _SignupScreenState extends State<SignupScreen> {
 
               const SizedBox(height: 15),
 
-              /// LOGIN REDIRECT
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -114,7 +114,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
               const SizedBox(height: 30),
 
-              /// SIGN UP BUTTON
+              /// UPDATED SIGNUP BUTTON WITH LOADING SCREEN
               CustomButton(
                 text: "Sign Up",
                 onPressed: () async => await signupUser(),
@@ -128,9 +128,6 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
-  /// -----------------------------------------------------
-  ///  CUSTOM INPUT FIELD (ENHANCED UI)
-  /// -----------------------------------------------------
   Widget _inputField({
     required TextEditingController controller,
     required String hint,

@@ -10,18 +10,38 @@ class SettingsScreen extends StatelessWidget {
     AuthService authService = AuthService();
 
     Future<void> logout() async {
-      String? error = await authService.logout();
+      bool? confirm = await showDialog<bool>(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Confirm Logout'),
+          content: const Text('Are you sure you want to logout?'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(context, true),
+              child: const Text('Logout'),
+            ),
+          ],
+        ),
+      );
 
-      if (error != null) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(error)));
-      } else {
-        Navigator.pushNamedAndRemoveUntil(
-          context,
-          AppRoute.loginpage,
-          (route) => false,
-        );
+      if (confirm == true) {
+        String? error = await authService.logout();
+
+        if (error != null) {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(error)));
+        } else {
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            AppRoute.loginpage,
+            (route) => false,
+          );
+        }
       }
     }
 
@@ -41,13 +61,13 @@ class SettingsScreen extends StatelessWidget {
             label: "Profile",
             onTap: () => Navigator.pushNamed(context, AppRoute.profilepage),
           ),
-
-          _settingsItem(icon: Icons.info_outline, label: "About", onTap: () {}),
-
+          
           _settingsItem(
-            icon: Icons.color_lens_outlined,
-            label: "Theme",
-            onTap: () {},
+            icon: Icons.info_outline,
+            label: "About",
+            onTap: () {
+              Navigator.pushNamed(context, AppRoute.aboutpage);
+            },
           ),
 
           _settingsItem(

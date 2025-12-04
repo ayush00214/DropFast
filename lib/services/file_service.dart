@@ -7,7 +7,7 @@ import '../models/SharedFileModel.dart';
 
 class FileService {
   final String baseUrl =
-      "http://google-discussing.gl.at.ply.gg:16557/api/files";
+      "https://dropfast.karkiom.com.np/dropfast-api/files";
 
   Future<String> uploadFiles(List<File> files, BuildContext context) async {
     final user = FirebaseAuth.instance.currentUser;

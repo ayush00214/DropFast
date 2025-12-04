@@ -1,5 +1,6 @@
 import 'package:drop_fast/services/auth_service.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import '../widgets/custom_button.dart';
 import 'package:drop_fast/routes.dart';
 
@@ -12,8 +13,22 @@ class LoginScreen extends StatelessWidget {
     final passwordController = TextEditingController();
     final AuthService authService = AuthService();
 
+    
+    void showProcessing() {
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (_) =>
+            Center(child: Lottie.asset('assets/processing.json', height: 180)),
+      );
+    }
+
     Future<void> loginUser() async {
-      String? error = await authService.login(emailController.text, passwordController.text);
+      showProcessing();
+      String? error = await authService.login(
+        emailController.text,
+        passwordController.text,
+      );
 
       if (error != null) {
         ScaffoldMessenger.of(
@@ -27,6 +42,7 @@ class LoginScreen extends StatelessWidget {
         );
       }
     }
+
     return Scaffold(
       backgroundColor: Colors.grey[100],
       body: SingleChildScrollView(
@@ -53,10 +69,7 @@ class LoginScreen extends StatelessWidget {
               /// SUBTITLE
               const Text(
                 'Fast & Secure File Sharing',
-                style: TextStyle(
-                  color: Colors.grey,
-                  fontSize: 14,
-                ),
+                style: TextStyle(color: Colors.grey, fontSize: 14),
               ),
               const SizedBox(height: 35),
 
@@ -89,7 +102,8 @@ class LoginScreen extends StatelessWidget {
                 children: [
                   const Text("Don’t have an account? "),
                   GestureDetector(
-                    onTap: () => Navigator.pushNamed(context, AppRoute.signuppage),
+                    onTap: () =>
+                        Navigator.pushNamed(context, AppRoute.signuppage),
                     child: const Text(
                       "Sign up",
                       style: TextStyle(

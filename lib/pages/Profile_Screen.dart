@@ -11,7 +11,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   Future<UserModel?>? Userdata;
-  AuthService _authService = AuthService();
+  final AuthService _authService = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +78,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text("Storage Used", style: TextStyle(fontSize: 16)),
+                  const Text("Storage Used (Just Demo)", style: TextStyle(fontSize: 16)),
                   const SizedBox(height: 10),
 
                   /// Progress Bar

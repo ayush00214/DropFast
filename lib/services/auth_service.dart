@@ -19,8 +19,7 @@ class AuthService {
       // send token to backend
       await http.post(
         Uri.parse(
-          "http://google-discussing.gl.at.ply.gg:16557/api/auth/signup"
-              "nup",
+          "https://dropfast.karkiom.com.np/dropfast-api/auth/signup",
         ),
         headers: {"Content-Type": "application/json"},
         body: jsonEncode({
@@ -48,7 +47,7 @@ class AuthService {
 
       // send token to backend
       await http.post(
-        Uri.parse("http://google-discussing.gl.at.ply.gg:16557/api/auth/login"),
+        Uri.parse("https://dropfast.karkiom.com.np/dropfast-api/auth/login"),
         headers: {"Content-Type": "application/json"},
         body: jsonEncode({
           "uid": userCredential.user!.uid,
@@ -77,7 +76,7 @@ class AuthService {
       final uid = _auth.currentUser?.uid;
       final response = await http.get(
         Uri.parse(
-          "http://google-discussing.gl.at.ply.gg:16557/api/auth/profile/$uid",
+          "https://dropfast.karkiom.com.np/dropfast-api/auth/profile/$uid",
         ),
       );
 

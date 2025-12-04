@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:drop_fast/pages/QRScreen.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:drop_fast/routes.dart';
@@ -25,11 +24,20 @@ class _UploadScreenState extends State<UploadScreen> {
     file_service = _fileService.getMyFiles();
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    final args = ModalRoute.of(context)?.settings.arguments;
+    if (args != null && args is List<File>) {
+      files = args;
+    }
+  }
+
   Future<void> pickFiles() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       allowMultiple: true,
-      type: FileType.custom,
-      allowedExtensions: ['jpg', 'pdf', 'doc'],
+      type: FileType.any,
     );
     if (result == null) return;
 
@@ -47,10 +55,7 @@ class _UploadScreenState extends State<UploadScreen> {
     try {
       final url = await _fileService.uploadFiles(files!, context);
 
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (_) => QRScreen(url: url)),
-      );
+      Navigator.pushNamed(context, AppRoute.uploadsuccesspage, arguments: url);
     } catch (e) {
       print("Upload failed: $e");
       ScaffoldMessenger.of(
@@ -64,9 +69,15 @@ class _UploadScreenState extends State<UploadScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[100],
+
       appBar: AppBar(
-        title: Text("Share Files"),
+        elevation: 3,
         backgroundColor: const Color(0xFF007BFF),
+        title: const Text(
+          "Upload",
+          style: TextStyle(fontWeight: FontWeight.w700),
+        ),
         centerTitle: true,
       ),
 
@@ -212,10 +223,19 @@ class _UploadScreenState extends State<UploadScreen> {
                           itemCount: files.length,
                           itemBuilder: (context, index) {
                             final file = files[index];
+                            final String fileUrl =
+                                "https://dropfast.karkiom.com.np/dropfast-api/files/${file.id}";
                             return _fileItem(
                               file.files.first.originalName,
                               createdAt: file.createdAt,
                               expiresAt: file.expiresAt,
+                              onTapped: () {
+                                Navigator.pushNamed(
+                                  context,
+                                  AppRoute.uploadsuccesspage,
+                                  arguments: fileUrl,
+                                );
+                              },
                             );
                           },
                         );
@@ -262,6 +282,7 @@ class _UploadScreenState extends State<UploadScreen> {
     String name, {
     required DateTime createdAt,
     required DateTime expiresAt,
+    required VoidCallback? onTapped,
   }) {
     return ListTile(
       leading: const Icon(Icons.insert_drive_file),
@@ -269,6 +290,7 @@ class _UploadScreenState extends State<UploadScreen> {
       subtitle: Text(
         "Created: ${createdAt.toLocal()}\nExpires: ${expiresAt.toLocal()}",
       ),
+      onTap: onTapped,
     );
   }
 }

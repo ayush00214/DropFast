@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../widgets/custom_button.dart';
 import 'package:drop_fast/routes.dart';
@@ -7,6 +8,7 @@ class WelcomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final FirebaseAuth auth = FirebaseAuth.instance;
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -54,7 +56,16 @@ class WelcomeScreen extends StatelessWidget {
                 /// GET STARTED BUTTON
                 CustomButton(
                   text: "Get Started",
-                  onPressed: () => Navigator.pushNamed(context, AppRoute.signuppage),
+                  onPressed: () => {
+                    if(auth.currentUser == null)
+                      {
+                        Navigator.popAndPushNamed(context, AppRoute.loginpage)
+                      }
+                    else
+                      {
+                        Navigator.popAndPushNamed(context, AppRoute.homepage)
+                      }
+                  },
                 )
               ],
             ),
