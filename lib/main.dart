@@ -1,13 +1,13 @@
-import 'package:drop_fast/pages/Signup_page.dart';
 import 'package:flutter/material.dart';
-import 'pages/splash_screen.dart';
-import 'pages/welcome_screen.dart';
-import 'pages/login_page.dart';
+import 'firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:drop_fast/routes.dart';
 
-import 'pages/home_screen.dart';
-import 'pages/upload_screen.dart';
-
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await  Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const DropFast());
 }
 
@@ -24,15 +24,8 @@ class DropFast extends StatelessWidget {
         scaffoldBackgroundColor: Colors.white,
         fontFamily: 'Poppins',
       ),
-      initialRoute: '/',
-      routes: {
-        '/': (context) => const SplashScreen(),
-        '/welcome': (context) => const WelcomeScreen(),
-        '/login': (context) => const LoginScreen(),
-        '/signup': (context) => const SignupScreen(),
-        '/home': (context) => const HomeScreen(),
-        '/upload': (context) => const UploadScreen(),
-      },
+      initialRoute: AppRoute.initialpage,
+      routes: AppRoute.getAppRoutes(),
     );
   }
 }

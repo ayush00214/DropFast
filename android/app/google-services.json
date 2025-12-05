@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "209907029942",
+    "project_id": "dropfast-9d915",
+    "storage_bucket": "dropfast-9d915.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:209907029942:android:d1de56cdccd92ae13a9317",
+        "android_client_info": {
+          "package_name": "com.example.drop_fast"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAKREwfVNVDRytS-9a64FagKkOFRLi0fGc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

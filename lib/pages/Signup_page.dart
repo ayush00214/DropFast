@@ -1,47 +1,163 @@
+import 'package:drop_fast/routes.dart';
+import 'package:drop_fast/services/auth_service.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import '../widgets/custom_button.dart';
 
-class SignupScreen extends StatelessWidget {
+class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
+
+  @override
+  State<SignupScreen> createState() => _SignupScreenState();
+}
+
+class _SignupScreenState extends State<SignupScreen> {
+  final TextEditingController name = TextEditingController();
+  final TextEditingController email = TextEditingController();
+  final TextEditingController password = TextEditingController();
+  final AuthService _authService = AuthService();
+  
+    void showProcessing() {
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (_) =>
+            Center(child: Lottie.asset('assets/processing.json', height: 180)),
+      );
+    }
+
+  Future<void> signupUser() async {
+    showProcessing();
+    String? error = await _authService.signup(name.text, email.text, password.text);
+    
+    if (error != null) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(error)));
+    } else {
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        AppRoute.homepage,
+        (route) => false,
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 25),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset('assets/logo.png', height: 100),
-            const Text('DropFast',
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Color(0xFF007BFF))),
-            const Text('Fast & Secure File Sharing',
-                style: TextStyle(color: Colors.grey)),
-            const SizedBox(height: 25),
-            const TextField(decoration: InputDecoration(hintText: 'Name', border: OutlineInputBorder())),
-            const SizedBox(height: 15),
-            const TextField(decoration: InputDecoration(hintText: 'Email', border: OutlineInputBorder())),
-            const SizedBox(height: 15),
-            const TextField(
-                obscureText: true,
-                decoration: InputDecoration(hintText: 'Password', border: OutlineInputBorder(), suffixIcon: Icon(Icons.lock))),
-            const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text("Already have an account? "),
-                GestureDetector(
-                  onTap: () => Navigator.pushNamed(context, '/login'),
-                  child: const Text("Login", style: TextStyle(color: Color(0xFF007BFF))),
+      backgroundColor: Colors.grey[100],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 25),
+          child: Column(
+            children: [
+              const SizedBox(height: 70),
+
+              Image.asset('assets/logo.png', height: 110),
+              const SizedBox(height: 8),
+
+              const Text(
+                'DropFast',
+                style: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF007BFF),
                 ),
-              ],
-            ),
-            const SizedBox(height: 20),
-            CustomButton(
-              text: "Sign Up",
-              onPressed: () => Navigator.pushReplacementNamed(context, '/home'),
-            )
-          ],
+              ),
+              const Text(
+                'Fast & Secure File Sharing',
+                style: TextStyle(color: Colors.grey, fontSize: 14),
+              ),
+
+              const SizedBox(height: 35),
+
+              _inputField(
+                controller: name,
+                hint: "Name",
+                icon: Icons.person,
+              ),
+              const SizedBox(height: 18),
+
+              _inputField(
+                controller: email,
+                hint: "Email",
+                icon: Icons.email,
+              ),
+              const SizedBox(height: 18),
+
+              _inputField(
+                controller: password,
+                hint: "Password",
+                icon: Icons.lock,
+                obscure: true,
+              ),
+
+              const SizedBox(height: 15),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text("Already have an account? "),
+                  GestureDetector(
+                    onTap: () => Navigator.pushNamed(context, AppRoute.loginpage),
+                    child: const Text(
+                      "Login",
+                      style: TextStyle(
+                        color: Color(0xFF007BFF),
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 30),
+
+              /// UPDATED SIGNUP BUTTON WITH LOADING SCREEN
+              CustomButton(
+                text: "Sign Up",
+                onPressed: () async => await signupUser(),
+              ),
+
+              const SizedBox(height: 40),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _inputField({
+    required TextEditingController controller,
+    required String hint,
+    required IconData icon,
+    bool obscure = false,
+  }) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(14),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black12.withOpacity(0.06),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: TextField(
+        controller: controller,
+        obscureText: obscure,
+        decoration: InputDecoration(
+          prefixIcon: Icon(icon, color: Color(0xFF007BFF)),
+          hintText: hint,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(14),
+            borderSide: BorderSide.none,
+          ),
+          filled: true,
+          fillColor: Colors.white,
         ),
       ),
     );

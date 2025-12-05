@@ -35,6 +35,18 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   google_maps_flutter: ^2.14.0
+  firebase_core: ^4.2.1
+  firebase_auth: ^6.1.2
+  http:
+  file_picker:
+  qr_flutter: ^4.1.0
+  url_launcher:
+  qr_code_scanner_plus:
+  lottie: ^3.3.2
+  share_plus: 
+  photo_manager: 
+  provider: ^6.0.5
+  oktoast: ^3.3.2
 
 dev_dependencies:
   flutter_test:
@@ -46,6 +58,8 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^5.0.0
+  qr_flutter:
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -63,6 +77,9 @@ flutter:
   assets:
     - assets/
     - assets/logo.png
+    - assets/loading.json
+    - assets/processing.json
+    - assets/upload_done.json
  
 
   # An image asset can refer to one or more resolution-specific "variants", see
